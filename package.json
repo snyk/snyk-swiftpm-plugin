@@ -1,0 +1,24 @@
+{
+  "name": "snyk-swiftpm-plugin",
+  "description": "snyk cli SwiftPm Plugin",
+  "main": "dist/index.js",
+  "scripts": {
+    "test": "npm run lint && npm run unit-test",
+    "unit-test": "jest && tap --no-coverage test/*.test.ts --timeout=300",
+    "lint": "prettier --check \"./lib/**/*.ts\" && eslint -c .eslintrc.js \"./lib/**/*\"",
+    "lint:fix": "prettier --write \"./lib/**/*.ts\" && eslint -c .eslintrc.js --fix \"./lib/**/*\"",
+    "build": "tsc",
+    "build-watch": "tsc -w",
+    "prepare": "npm run build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/snyk/snyk-swiftpm-plugin.git"
+  },
+  "author": "snyk.io",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/snyk/snyk-swiftpm-plugin/issues"
+  },
+  "homepage": "https://github.com/snyk/snyk-swiftpm-plugin#readme"
+}
