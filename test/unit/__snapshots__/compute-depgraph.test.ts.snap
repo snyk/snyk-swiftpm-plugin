@@ -1,0 +1,204 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`compute-depgraph should successfully create snyk dep graph from swift-pm dep tree 1`] = `
+Object {
+  "graph": Object {
+    "nodes": Array [
+      Object {
+        "deps": Array [
+          Object {
+            "nodeId": "grpc-swift@1.11.0",
+          },
+        ],
+        "nodeId": "root-node",
+        "pkgId": "swiftPM-spike@unspecified",
+      },
+      Object {
+        "deps": Array [
+          Object {
+            "nodeId": "swift-nio@2.42.0",
+          },
+          Object {
+            "nodeId": "swift-nio-http2@1.23.0",
+          },
+          Object {
+            "nodeId": "swift-nio-transport-services@1.14.1",
+          },
+          Object {
+            "nodeId": "swift-nio-extras@1.14.0",
+          },
+          Object {
+            "nodeId": "SwiftProtobuf@1.20.2",
+          },
+          Object {
+            "nodeId": "swift-log@1.4.4",
+          },
+          Object {
+            "nodeId": "swift-nio-ssl@2.22.1",
+          },
+        ],
+        "nodeId": "grpc-swift@1.11.0",
+        "pkgId": "grpc-swift@1.11.0",
+      },
+      Object {
+        "deps": Array [
+          Object {
+            "nodeId": "swift-atomics@1.0.2",
+          },
+          Object {
+            "nodeId": "swift-collections@1.0.3",
+          },
+        ],
+        "nodeId": "swift-nio@2.42.0",
+        "pkgId": "swift-nio@2.42.0",
+      },
+      Object {
+        "deps": Array [],
+        "nodeId": "swift-atomics@1.0.2",
+        "pkgId": "swift-atomics@1.0.2",
+      },
+      Object {
+        "deps": Array [],
+        "nodeId": "swift-collections@1.0.3",
+        "pkgId": "swift-collections@1.0.3",
+      },
+      Object {
+        "deps": Array [
+          Object {
+            "nodeId": "swift-nio@2.42.0",
+          },
+          Object {
+            "nodeId": "swift-atomics@1.0.2",
+          },
+        ],
+        "nodeId": "swift-nio-http2@1.23.0",
+        "pkgId": "swift-nio-http2@1.23.0",
+      },
+      Object {
+        "deps": Array [
+          Object {
+            "nodeId": "swift-nio@2.42.0",
+          },
+          Object {
+            "nodeId": "swift-atomics@1.0.2",
+          },
+        ],
+        "nodeId": "swift-nio-transport-services@1.14.1",
+        "pkgId": "swift-nio-transport-services@1.14.1",
+      },
+      Object {
+        "deps": Array [
+          Object {
+            "nodeId": "swift-nio@2.42.0",
+          },
+        ],
+        "nodeId": "swift-nio-extras@1.14.0",
+        "pkgId": "swift-nio-extras@1.14.0",
+      },
+      Object {
+        "deps": Array [],
+        "nodeId": "SwiftProtobuf@1.20.2",
+        "pkgId": "SwiftProtobuf@1.20.2",
+      },
+      Object {
+        "deps": Array [],
+        "nodeId": "swift-log@1.4.4",
+        "pkgId": "swift-log@1.4.4",
+      },
+      Object {
+        "deps": Array [
+          Object {
+            "nodeId": "swift-nio@2.42.0",
+          },
+        ],
+        "nodeId": "swift-nio-ssl@2.22.1",
+        "pkgId": "swift-nio-ssl@2.22.1",
+      },
+    ],
+    "rootNodeId": "root-node",
+  },
+  "pkgManager": Object {
+    "name": "swift-pm",
+  },
+  "pkgs": Array [
+    Object {
+      "id": "swiftPM-spike@unspecified",
+      "info": Object {
+        "name": "swiftPM-spike",
+        "version": "unspecified",
+      },
+    },
+    Object {
+      "id": "grpc-swift@1.11.0",
+      "info": Object {
+        "name": "grpc-swift",
+        "version": "1.11.0",
+      },
+    },
+    Object {
+      "id": "swift-nio@2.42.0",
+      "info": Object {
+        "name": "swift-nio",
+        "version": "2.42.0",
+      },
+    },
+    Object {
+      "id": "swift-atomics@1.0.2",
+      "info": Object {
+        "name": "swift-atomics",
+        "version": "1.0.2",
+      },
+    },
+    Object {
+      "id": "swift-collections@1.0.3",
+      "info": Object {
+        "name": "swift-collections",
+        "version": "1.0.3",
+      },
+    },
+    Object {
+      "id": "swift-nio-http2@1.23.0",
+      "info": Object {
+        "name": "swift-nio-http2",
+        "version": "1.23.0",
+      },
+    },
+    Object {
+      "id": "swift-nio-transport-services@1.14.1",
+      "info": Object {
+        "name": "swift-nio-transport-services",
+        "version": "1.14.1",
+      },
+    },
+    Object {
+      "id": "swift-nio-extras@1.14.0",
+      "info": Object {
+        "name": "swift-nio-extras",
+        "version": "1.14.0",
+      },
+    },
+    Object {
+      "id": "SwiftProtobuf@1.20.2",
+      "info": Object {
+        "name": "SwiftProtobuf",
+        "version": "1.20.2",
+      },
+    },
+    Object {
+      "id": "swift-log@1.4.4",
+      "info": Object {
+        "name": "swift-log",
+        "version": "1.4.4",
+      },
+    },
+    Object {
+      "id": "swift-nio-ssl@2.22.1",
+      "info": Object {
+        "name": "swift-nio-ssl",
+        "version": "2.22.1",
+      },
+    },
+  ],
+  "schemaVersion": "1.2.0",
+}
+`;
