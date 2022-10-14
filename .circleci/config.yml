@@ -8,7 +8,7 @@ defaults: &defaults
     node_version:
       type: string
       default: ''
-  working_directory: ~/snyk-nuget-plugin
+  working_directory: ~/snyk-swiftpm-plugin
 
 windows_defaults: &windows_defaults
   environment:
