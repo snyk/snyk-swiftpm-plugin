@@ -3,10 +3,13 @@
   "description": "snyk cli SwiftPm Plugin",
   "main": "dist/index.js",
   "scripts": {
-    "test": "npm run lint && npm run unit-test",
-    "unit-test": "jest && tap --no-coverage test/*.test.ts --timeout=300",
-    "lint": "prettier --check \"./lib/**/*.ts\" && eslint -c .eslintrc.js \"./lib/**/*\"",
-    "lint:fix": "prettier --write \"./lib/**/*.ts\" && eslint -c .eslintrc.js --fix \"./lib/**/*\"",
+    "format:check": "prettier --check '{lib,test}/**/*.{js,ts,json,yml}'",
+    "format": "prettier --write '{lib,test}/**/*.{js,ts,json,yml}'",
+    "lint": "npm run format:check && npm run lint:eslint",
+    "lint:eslint": "eslint --color --cache 'lib/**/*.{js,ts}'",
+    "test": "npm run test:unit",
+    "test:unit": "jest --coverage",
+    "test:watch": "tsc-watch --onSuccess 'npm run test:unit'",
     "build": "tsc",
     "build-watch": "tsc -w",
     "prepare": "npm run build"
