@@ -1,42 +1,36 @@
 version: 2.1
 
-orbs:
-  win: circleci/windows@2.4.0
-
 defaults: &defaults
   parameters:
     node_version:
       type: string
-      default: ''
-  working_directory: ~/snyk-swiftpm-plugin
-
-windows_defaults: &windows_defaults
-  environment:
-    npm_config_loglevel: silent
-  executor:
-    name: win/default
+      default: ""
 
 commands:
-  install_deps:
-    description: Install dependencies
+  npmrc:
     steps:
       - run:
-          name: Install dependencies
-          command: npm install
+          name: Create .npmrc
+          command: echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" >> .npmrc
+
+  setup_git:
+    steps:
+      - run:
+          name: "Setup git environment"
+          command: git config --global core.autocrlf false
+
   install_node_npm:
-    description: Install correct Node version
-    parameters:
-      node_version:
-        type: string
-        default: ''
+    <<: *defaults
+    description: Install specific version of Node
     steps:
       - run:
-          name: Install correct version of Node
+          name: Installing node version << parameters.node_version >>
           command: nvm install << parameters.node_version >>
       - run:
-          name: Use correct version of Node
+          name: Using node version << parameters.node_version >>
           command: nvm use << parameters.node_version >>
-  show_node_version:
+
+  show_node_npm_version:
     description: Log Node and npm version
     steps:
       - run:
@@ -46,6 +40,12 @@ commands:
           name: NPM version
           command: npm --version
 
+  install_deps:
+    description: Install dependencies
+    steps:
+      - run:
+          name: Install npm dependencies
+          command: npm install
 jobs:
   lint:
     <<: *defaults
@@ -53,25 +53,11 @@ jobs:
       - image: circleci/node:<< parameters.node_version >>
     steps:
       - checkout
+      - show_node_npm_version
       - install_deps
-      - show_node_version
       - run:
           name: Run lint
           command: npm run lint
-
-  test-windows:
-    <<: *defaults
-    <<: *windows_defaults
-    steps:
-      - run: git config --global core.autocrlf false
-      - checkout
-      - install_node_npm:
-          node_version: << parameters.node_version >>
-      - install_deps
-      - show_node_version
-      - run:
-          name: Run tests
-          command: npm test
 
   test-unix:
     <<: *defaults
@@ -79,11 +65,11 @@ jobs:
       - image: circleci/node:<< parameters.node_version >>
     steps:
       - checkout
+      - show_node_npm_version
       - install_deps
-      - show_node_version
       - run:
           name: Run tests
-          command: npm test
+          command: npm run unit-test
 
   release:
     <<: *defaults
@@ -94,7 +80,7 @@ jobs:
       - checkout
       - install_deps
       - run:
-          name: Publish to GitHub
+          name: Release
           command: npx semantic-release
 
 workflows:
@@ -102,84 +88,28 @@ workflows:
   test_and_release:
     jobs:
       - lint:
-          name: Lint
+          name: lint
           context: nodejs-install
-          node_version: '14'
-          filters:
-            branches:
-              ignore:
-                - master
+          node_version: "12"
 
       # UNIX tests
       - test-unix:
-          name: Unix Tests for Node=10
+          name: Unix Tests for Node << matrix.node_version >>
           context: nodejs-install
-          node_version: '10'
           requires:
-            - Lint
-          filters:
-            branches:
-              ignore:
-                - master
-      - test-unix:
-          name: Unix Tests for Node=12
-          context: nodejs-install
-          node_version: '12'
-          requires:
-            - Lint
-          filters:
-            branches:
-              ignore:
-                - master
-      - test-unix:
-          name: Unix Tests for Node=14
-          context: nodejs-install
-          node_version: '14'
-          requires:
-            - Lint
-          filters:
-            branches:
-              ignore:
-                - master
+            - lint
+          matrix:
+            parameters:
+              node_version: ["16.13.1", "14.18.2", "12.22.7"]
 
-      # Windows tests
-      - test-windows:
-          name: Windows Tests for Node=10
-          context: nodejs-install
-          node_version: '10.21.0'
-          requires:
-            - Lint
-          filters:
-            branches:
-              ignore:
-                - master
-      - test-windows:
-          name: Windows Tests for Node=12
-          context: nodejs-install
-          node_version: '12.0.0'
-          requires:
-            - Lint
-          filters:
-            branches:
-              ignore:
-                - master
-      - test-windows:
-          name: Windows Tests for Node=14
-          context: nodejs-install
-          node_version: '14.0.0'
-          requires:
-            - Lint
-          filters:
-            branches:
-              ignore:
-                - master
-
-      # Release
       - release:
           name: Release
-          context: nodejs-app-release
-          node_version: '14'
+          context: nodejs-lib-release
+          node_version: "lts"
+          requires:
+            - lint
+            - test-unix
           filters:
             branches:
               only:
-                - master
+                - main
