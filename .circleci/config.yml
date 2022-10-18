@@ -69,7 +69,7 @@ jobs:
       - install_deps
       - run:
           name: Run tests
-          command: npm run test:unit
+          command: npm run unit-test
 
   release:
     <<: *defaults
