@@ -52,7 +52,7 @@ function traverseTree(
 function convertToGraph(rootNode: DepTreeNode): DepGraph {
   const { name, version } = rootNode;
   const depGraphBuilder = new DepGraphBuilder(
-    { name: 'swift-pm' },
+    { name: 'swift' },
     { name, version },
   );
 
