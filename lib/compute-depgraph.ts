@@ -10,10 +10,18 @@ export type DepTreeNode = {
 
 export async function computeDepGraph(
   root: string,
+  targetFile: string,
   additionalArgs?: string[],
 ): Promise<DepGraph> {
   try {
-    const defaultArgs = ['package', 'show-dependencies', '--format', 'json'];
+    const defaultArgs = [
+      'package',
+      '--package-path',
+      targetFile,
+      'show-dependencies',
+      '--format',
+      'json',
+    ];
 
     const args = additionalArgs
       ? defaultArgs.concat(additionalArgs)
