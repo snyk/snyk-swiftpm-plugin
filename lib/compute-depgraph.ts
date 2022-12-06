@@ -1,5 +1,7 @@
 import { DepGraph, DepGraphBuilder } from '@snyk/dep-graph';
 import { execute } from './subprocess';
+import * as path from 'path';
+
 export type DepTreeNode = {
   name: string;
   url: string;
@@ -17,7 +19,7 @@ export async function computeDepGraph(
     const defaultArgs = [
       'package',
       '--package-path',
-      targetFile,
+      path.dirname(targetFile),
       'show-dependencies',
       '--format',
       'json',
@@ -44,14 +46,23 @@ function traverseTree(
   const childNodes = rootNode.dependencies;
 
   childNodes?.forEach((node) => {
-    const { name, version } = node;
+    const { url, version } = node;
+    const name = url
+      .replace(/https:\/\//g, '')
+      .replace(/http:\/\//g, '')
+      .replace(/.git/g, '');
+    const parentName =
+      rootNodeId ||
+      rootNode.url
+        .replace(/https:\/\//g, '')
+        .replace(/http:\/\//g, '')
+        .replace(/.git/g, '');
+
     const nodeId = `${name}@${version}`;
+    const parentNodeId = `${parentName}@${rootNode.version}`;
 
     builder.addPkgNode({ name, version }, nodeId);
-    builder.connectDep(
-      rootNodeId || `${rootNode.name}@${rootNode.version}`,
-      nodeId,
-    );
+    builder.connectDep(rootNodeId || parentNodeId, nodeId);
 
     traverseTree(node, builder);
   });
