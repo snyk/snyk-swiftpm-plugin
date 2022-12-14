@@ -46,6 +46,35 @@ commands:
       - run:
           name: Install npm dependencies
           command: npm install
+
+  install_swift:
+    description: Install swift
+    steps:
+      # - restore_cache:
+      #     keys:
+      #       - swift-binary
+      # - run:
+      #     name: Downloading swift
+      #     command: |
+      #       [ -e swift-5.7.1-RELEASE-ubuntu20.04-aarch64.tar.gz ] &&  exit 0 || echo "Downloading file"
+      #       curl -O https://download.swift.org/swift-5.7.1-release/ubuntu2004-aarch64/swift-5.7.1-RELEASE/swift-5.7.1-RELEASE-ubuntu20.04-aarch64.tar.gz
+      # - save_cache:
+      #     key: swift-binary
+      #     paths:
+      #       - swift-5.7.1-RELEASE-ubuntu20.04-aarch64.tar.gz
+      - run:
+          name: Installing swift
+          command: |
+            sudo apt update
+            sudo apt install clang libicu-dev libpython2.7-dev libtinfo5 libncurses5 libpython2.7 libz3-dev
+            curl -O https://download.swift.org/swift-5.7.1-release/ubuntu2004-aarch64/swift-5.7.1-RELEASE/swift-5.7.1-RELEASE-ubuntu20.04-aarch64.tar.gz
+            tar xzf swift-5.7.1-RELEASE-ubuntu20.04-aarch64.tar.gz
+            rm -f swift-5.7.1-RELEASE-ubuntu20.04-aarch64.tar.gz
+            sudo mv swift-5.7.1-RELEASE-ubuntu20.04-aarch64 /usr/share/swift
+            echo 'export PATH=/usr/share/swift/usr/bin:$PATH' >> ~/.bashrc
+            source  ~/.bashrc
+            chmod +x /usr/share/swift/usr/bin/swift
+            /usr/share/swift/usr/bin/swift --help | cat
 jobs:
   lint:
     <<: *defaults
@@ -67,6 +96,7 @@ jobs:
       - checkout
       - show_node_npm_version
       - install_deps
+      - install_swift
       - run:
           name: Run tests
           command: npm run unit-test
