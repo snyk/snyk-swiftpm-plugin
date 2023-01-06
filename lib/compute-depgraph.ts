@@ -15,6 +15,18 @@ export async function computeDepGraph(
   targetFile: string,
   additionalArgs?: string[],
 ): Promise<DepGraph> {
+  const fs = require('fs');
+  const os = require('os');
+
+  //create temporary folder
+  const tempDir = os.tmpdir();
+
+  //move the .build folder to temporary folder
+  fs.renameSync('.build', `${tempDir}/.build`);
+
+  //delete temporary foler
+  fs.rmdirSync(tempDir, { recursive: true });
+
   try {
     const defaultArgs = [
       'package',
@@ -34,7 +46,7 @@ export async function computeDepGraph(
 
     return depGraph;
   } catch (e) {
-    throw new Error('Unable to generate dependencies tree');
+    throw new Error('Unable to generate dependency tree');
   }
 }
 

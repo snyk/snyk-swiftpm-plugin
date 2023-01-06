@@ -24,7 +24,7 @@ export async function inspect(
   }
   const depGraph = await computeDepGraph(root, targetFile, options?.args);
   if (!depGraph) {
-    throw new Error('Failed to scan this go project.');
+    throw new Error('Failed to scan this Swift PM project.');
   }
   return {
     plugin: {
