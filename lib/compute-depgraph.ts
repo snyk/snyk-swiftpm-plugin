@@ -1,8 +1,8 @@
 import { DepGraph, DepGraphBuilder } from '@snyk/dep-graph';
 import { execute } from './subprocess';
 import * as path from 'path';
-import * as os from "os";
-import * as fs from "fs";
+import * as os from 'os';
+import * as fs from 'fs';
 
 export type DepTreeNode = {
   name: string;
@@ -17,11 +17,10 @@ export async function computeDepGraph(
   targetFile: string,
   additionalArgs?: string[],
 ): Promise<DepGraph> {
-
   //create temporary folder
   const tempDir = os.tmpdir();
-  const randomFolderName = fs.mkdtempSync("snyk-swift-");
-  const fullPath= path.join(tempDir, randomFolderName);
+  const randomFolderName = fs.mkdtempSync('snyk-swift-');
+  const fullPath = path.join(tempDir, randomFolderName);
 
   try {
     const defaultArgs = [
