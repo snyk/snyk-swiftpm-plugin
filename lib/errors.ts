@@ -1,6 +1,6 @@
 export class SwiftError extends Error {
-    constructor(message: string, swiftErrStack: any) {
-        super(message);
-        this.stack = swiftErrStack;
-    }
+  constructor(message: string, swiftErrStack: string) {
+    super(message);
+    this.stack = swiftErrStack;
+  }
 }
