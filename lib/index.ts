@@ -17,6 +17,12 @@ export async function inspect(
 
   //Review whether we should check for this or for xcode
   // const xctestPath = await lookpath('xctest');
+  const filename = targetFile.split(path.sep).slice(-1)[0];
+  if (filename !== 'Package.swift') {
+    throw new Error(
+      `${filename} is not supported by Swift Package Manager. Please provide with path to Package.swift`,
+    );
+  }
   if (!swiftPath) {
     throw new Error(
       'The "swift" command is not available on your system. To scan your dependencies in the CLI, you must ensure you have first installed the relevant package manager.',
@@ -30,7 +36,7 @@ export async function inspect(
     plugin: {
       name: 'snyk-swiftpm-plugin',
       runtime: 'unknown',
-      targetFile: pathToPosix(targetFile),
+      targetFile: `${pathToPosix(targetFile)}Package.swift`,
     },
     dependencyGraph: depGraph,
   };
