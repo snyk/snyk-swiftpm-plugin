@@ -1,7 +1,11 @@
 import { DepGraph, DepGraphBuilder } from '@snyk/dep-graph';
 import { execute } from './subprocess';
 import * as path from 'path';
+import * as fs from 'fs';
 import { SwiftError } from './errors';
+
+const SWIFT_BUILD_FOLDER = '.build';
+const SWIFT_PACKAGE_RESOLVED = 'Package.resolved';
 
 export type DepTreeNode = {
   name: string;
@@ -10,6 +14,24 @@ export type DepTreeNode = {
   path: string;
   dependencies: DepTreeNode[];
 };
+
+function checkIfPathExists(path: string): boolean {
+  try {
+    fs.statSync(path);
+    return true;
+  } catch (err) {
+    return false;
+  }
+}
+
+function deletePath(path: string) {
+  try {
+    fs.rmSync(path, { recursive: true });
+    return true;
+  } catch (error) {
+    return false;
+  }
+}
 
 export async function computeDepGraph(
   root: string,
@@ -32,9 +54,17 @@ export async function computeDepGraph(
   );
 
   try {
+    const isSwiftBuildFolderNotExists = !checkIfPathExists(SWIFT_BUILD_FOLDER);
+    const isSwiftPackageResolvedNotExists = !checkIfPathExists(
+      SWIFT_PACKAGE_RESOLVED,
+    );
+
     const result = await execute('swift', args, { cwd: root });
     const depTree: DepTreeNode = JSON.parse(result);
     const depGraph: DepGraph = convertToGraph(depTree);
+
+    isSwiftBuildFolderNotExists && deletePath(SWIFT_BUILD_FOLDER);
+    isSwiftPackageResolvedNotExists && deletePath(SWIFT_PACKAGE_RESOLVED);
 
     return depGraph;
   } catch (err) {
