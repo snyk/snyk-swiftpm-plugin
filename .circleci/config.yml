@@ -90,7 +90,7 @@ workflows:
       - lint:
           name: lint
           context: nodejs-install
-          node_version: "12"
+          node_version: "12.13"
 
       # UNIX tests
       - test-unix:
