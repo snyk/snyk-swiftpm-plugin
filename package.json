@@ -1,6 +1,6 @@
 {
   "name": "snyk-swiftpm-plugin",
-  "description": "snyk cli SwiftPm Plugin",
+  "description": "Snyk CLI SwiftPm Plugin",
   "main": "dist/index.js",
   "scripts": {
     "test": "npm run lint && npm run unit-test",
@@ -35,9 +35,13 @@
     "eslint-config-prettier": "^8.5.0",
     "jest": "^28.1.3",
     "prettier": "^2.3.0",
+    "semantic-release": "^19.0.2",
     "ts-jest": "^28.0.8",
     "ts-node": "^10.0.0",
     "tsc-watch": "^4.4.0",
     "typescript": "^4.3.2"
+  },
+  "engines": {
+    "node": ">=14"
   }
 }
