@@ -81,7 +81,7 @@ jobs:
       - install_deps
       - run:
           name: Release
-          command: npx -p node@18 -c semantic-release --branches main
+          command: npx semantic-release --branches main
 
 workflows:
   version: 2
@@ -105,7 +105,7 @@ workflows:
       - release:
           name: Release
           context: nodejs-lib-release
-          node_version: "lts"
+          node_version: "18"
           requires:
             - lint
             - test-unix
