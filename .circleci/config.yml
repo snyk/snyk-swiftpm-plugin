@@ -105,7 +105,7 @@ workflows:
       - release:
           name: Release
           context: nodejs-lib-release
-          node_version: "lts"
+          node_version: "18"
           requires:
             - lint
             - test-unix
