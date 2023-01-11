@@ -81,7 +81,7 @@ jobs:
       - install_deps
       - run:
           name: Release
-          command: npx semantic-release --branches main
+          command: npx -p node@18 -c semantic-release --branches main
 
 workflows:
   version: 2
