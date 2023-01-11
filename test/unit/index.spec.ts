@@ -2,6 +2,8 @@ import { inspect } from '../../lib/index';
 import { lookpath } from 'lookpath';
 import { computeDepGraph } from '../../lib/compute-depgraph';
 import { DepGraphBuilder } from '@snyk/dep-graph';
+import * as fs from 'fs';
+import * as path from 'path';
 
 jest.mock('../../lib/compute-depgraph');
 jest.mock('lookpath');
@@ -15,6 +17,8 @@ const depGraph = new DepGraphBuilder(
 describe('inspect', () => {
   it('should return depgraph', async () => {
     const mockedLookpath = jest.mocked(lookpath);
+    const mockedFs = jest.mocked(fs, true);
+    mockedFs.mkdtempSync.mockReturnValue('snyk-path-to-file');
     const mockedComputeDepGraph = jest.mocked(computeDepGraph);
     mockedLookpath.mockResolvedValue('swifty');
     mockedComputeDepGraph.mockResolvedValueOnce(depGraph);
@@ -24,7 +28,14 @@ describe('inspect', () => {
       'Package.swift',
       {},
     );
-    expect(result).toMatchSnapshot();
+    expect(result).toEqual({
+      plugin: {
+        name: 'snyk-swiftpm-plugin',
+        runtime: 'unknown',
+        targetFile: path.join(`${__dirname}/../fixtures/`, 'Package.swift'),
+      },
+      dependencyGraph: expect.any(Object),
+    });
   });
   it('should reject invalid manifest', async () => {
     const mockedLookpath = jest.mocked(lookpath);

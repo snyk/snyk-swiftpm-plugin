@@ -1,6 +1,7 @@
 import { computeDepGraph } from './compute-depgraph';
 import { lookpath } from 'lookpath';
 import * as path from 'path';
+import * as fs from 'fs';
 
 interface Options {
   debug?: boolean;
@@ -28,6 +29,11 @@ export async function inspect(
       'The "swift" command is not available on your system. To scan your dependencies in the CLI, you must ensure you have first installed the relevant package manager.',
     );
   }
+  const tempfolderPath = path.join('./', fs.mkdtempSync('snyk-'));
+  fs.copyFileSync(
+    path.join(root, targetFile),
+    path.join(tempfolderPath, targetFile),
+  );
   const depGraph = await computeDepGraph(root, targetFile, options?.args);
   if (!depGraph) {
     throw new Error('Failed to scan this Swift PM project.');
@@ -36,7 +42,7 @@ export async function inspect(
     plugin: {
       name: 'snyk-swiftpm-plugin',
       runtime: 'unknown',
-      targetFile: `${pathToPosix(targetFile)}Package.swift`,
+      targetFile: path.join(root, targetFile),
     },
     dependencyGraph: depGraph,
   };
