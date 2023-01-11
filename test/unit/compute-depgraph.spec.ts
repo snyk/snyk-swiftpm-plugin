@@ -90,21 +90,29 @@ describe('compute-depgraph', () => {
       mockedFs.statSync.mockImplementationOnce(() => {
         throw new Error('Test Error');
       });
-
+      const mockedStat = {
+        isDirectory: jest.fn(),
+        isFile: jest.fn(),
+      };
+      mockedFs.lstatSync.mockReturnValue(mockedStat as unknown as fs.Stats);
+      mockedStat.isDirectory.mockReturnValue(true);
+      mockedStat.isFile.mockReturnValue(true);
       await computeDepGraph('.', 'Package.swift');
-      expect(mockedFs.rmSync).toHaveBeenCalledWith('.build', {
-        recursive: true,
-      });
-      expect(mockedFs.rmSync).toHaveBeenCalledWith('Package.resolved', {
-        recursive: true,
-      });
+      expect(mockedFs.rmdirSync).toHaveBeenCalledWith('.build');
+      expect(mockedFs.unlinkSync).toHaveBeenCalledWith('Package.resolved');
     });
 
     it('should not delete the .build folder or Package.resolved if it they already exist', async () => {
       const mockedFs = jest.mocked(fs, true);
-
+      const mockedStat = {
+        isDirectory: jest.fn(),
+        isFile: jest.fn(),
+      };
+      mockedFs.lstatSync.mockReturnValue(mockedStat as unknown as fs.Stats);
+      mockedStat.isDirectory.mockReturnValue(true);
+      mockedStat.isFile.mockReturnValue(true);
       await computeDepGraph('.', 'Package.swift');
-      expect(mockedFs.rmSync).not.toHaveBeenCalled();
+      expect(mockedFs.unlinkSync).not.toHaveBeenCalled();
     });
   });
 });

@@ -26,10 +26,11 @@ function checkIfPathExists(path: string): boolean {
 
 function deletePath(path: string) {
   try {
-    fs.rmSync(path, { recursive: true });
-    return true;
+    const stat = fs.lstatSync(path);
+    stat.isDirectory() && fs.rmdirSync(path);
+    stat.isFile() && fs.unlinkSync(path);
   } catch (error) {
-    return false;
+    console.error('Unable to delete file..');
   }
 }
 
