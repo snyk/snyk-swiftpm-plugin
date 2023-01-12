@@ -55,6 +55,8 @@ export async function computeDepGraph(
     deletePath(root);
     const errAsString = err as string;
     throw new SwiftError('Unable to generate dependency tree', errAsString);
+  } finally {
+    deletePath(root);
   }
 }
 
