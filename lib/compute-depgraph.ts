@@ -15,10 +15,19 @@ export type DepTreeNode = {
   dependencies: DepTreeNode[];
 };
 
+function checkIfPathExists(path: string): boolean {
+  try {
+    fs.statSync(path);
+    return true;
+  } catch (err) {
+    return false;
+  }
+}
+
 function deletePath(path: string) {
   try {
     const stat = fs.lstatSync(path);
-    stat.isDirectory() && fs.rmdirSync(path, { recursive: true });
+    stat.isDirectory() && fs.rmdirSync(path);
     stat.isFile() && fs.unlinkSync(path);
   } catch (error) {
     console.error('Unable to delete file..');
@@ -46,17 +55,22 @@ export async function computeDepGraph(
   );
 
   try {
+    const isSwiftBuildFolderNotExists = !checkIfPathExists(SWIFT_BUILD_FOLDER);
+    const isSwiftPackageResolvedNotExists = !checkIfPathExists(
+      SWIFT_PACKAGE_RESOLVED,
+    );
+
     const result = await execute('swift', args, { cwd: root });
     const depTree: DepTreeNode = JSON.parse(result);
     const depGraph: DepGraph = convertToGraph(depTree);
-    deletePath(root);
+
+    isSwiftBuildFolderNotExists && deletePath(SWIFT_BUILD_FOLDER);
+    isSwiftPackageResolvedNotExists && deletePath(SWIFT_PACKAGE_RESOLVED);
+
     return depGraph;
   } catch (err) {
-    deletePath(root);
     const errAsString = err as string;
     throw new SwiftError('Unable to generate dependency tree', errAsString);
-  } finally {
-    deletePath(root);
   }
 }
 
