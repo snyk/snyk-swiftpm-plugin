@@ -22,7 +22,7 @@
   },
   "homepage": "https://github.com/snyk/snyk-swiftpm-plugin#readme",
   "dependencies": {
-    "@snyk/dep-graph": "^2.3.0",
+    "@snyk/dep-graph": "^2.6.0",
     "lookpath": "^1.2.2",
     "tslib": "^2.2.0"
   },
