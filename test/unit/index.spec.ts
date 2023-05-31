@@ -26,6 +26,7 @@ describe('inspect', () => {
     );
     expect(result).toMatchSnapshot();
   });
+
   it('should reject invalid manifest', async () => {
     const mockedLookpath = jest.mocked(lookpath);
     const mockedComputeDepGraph = jest.mocked(computeDepGraph);
@@ -37,6 +38,7 @@ describe('inspect', () => {
       'manifest.swift is not supported by Swift Package Manager. Please provide with path to Package.swift',
     );
   });
+
   it('should check for swift binary', async () => {
     const mockedLookpath = jest.mocked(lookpath);
     const mockedComputeDepGraph = jest.mocked(computeDepGraph);
