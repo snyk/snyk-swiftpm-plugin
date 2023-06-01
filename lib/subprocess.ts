@@ -6,13 +6,32 @@ interface ProcessOptions {
 }
 
 function makeSpawnOptions(options?: ProcessOptions) {
-  const spawnOptions: SpawnOptions = { shell: false };
-  if (options && options.cwd) {
+  const spawnOptions: SpawnOptions = {
+    shell: false,
+    env: { ...process.env },
+  };
+  if (options?.cwd) {
     spawnOptions.cwd = options.cwd;
   }
-  if (options && options.env) {
-    spawnOptions.env = options.env;
+
+  if (options?.env) {
+    spawnOptions.env = { ...spawnOptions.env, ...options.env };
+  } else {
+    spawnOptions.env = { ...spawnOptions.env };
   }
+
+  // Before spawning an external process, we check if we need to
+  // restore the system proxy configuration, which overrides the CLI internal proxy configuration.
+  if (process.env.SNYK_SYSTEM_HTTP_PROXY !== undefined) {
+    spawnOptions.env.HTTP_PROXY = process.env.SNYK_SYSTEM_HTTP_PROXY;
+  }
+  if (process.env.SNYK_SYSTEM_HTTPS_PROXY !== undefined) {
+    spawnOptions.env.HTTPS_PROXY = process.env.SNYK_SYSTEM_HTTPS_PROXY;
+  }
+  if (process.env.SNYK_SYSTEM_NO_PROXY !== undefined) {
+    spawnOptions.env.NO_PROXY = process.env.SNYK_SYSTEM_NO_PROXY;
+  }
+
   return spawnOptions;
 }
 
