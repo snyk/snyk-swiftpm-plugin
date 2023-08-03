@@ -41,7 +41,6 @@ describe('inspect', () => {
 
   it('should check for swift binary', async () => {
     const mockedLookpath = jest.mocked(lookpath);
-    const mockedComputeDepGraph = jest.mocked(computeDepGraph);
     mockedLookpath.mockResolvedValue(undefined);
     await expect(() =>
       inspect(`${__dirname}/../fixtures/`, 'Package.swift', {}),

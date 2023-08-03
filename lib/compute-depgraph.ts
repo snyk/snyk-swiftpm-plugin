@@ -3,9 +3,6 @@ import { execute } from './subprocess';
 import * as path from 'path';
 import { SwiftError } from './errors';
 
-const SWIFT_BUILD_FOLDER = '.build';
-const SWIFT_PACKAGE_RESOLVED = 'Package.resolved';
-
 export type DepTreeNode = {
   name: string;
   url: string;
@@ -13,36 +10,6 @@ export type DepTreeNode = {
   path: string;
   dependencies: DepTreeNode[];
 };
-
-export async function computeDepGraph(
-  root: string,
-  targetFile: string,
-  additionalArgs?: string[],
-): Promise<DepGraph> {
-  const args = ['package'];
-
-  if (additionalArgs) {
-    args.push(...additionalArgs);
-  }
-  args.push(
-    ...[
-      '--package-path',
-      path.dirname(targetFile),
-      'show-dependencies',
-      '--format',
-      'json',
-    ],
-  );
-
-  try {
-    const result = await execute('swift', args, { cwd: root });
-    const depTree: DepTreeNode = JSON.parse(result);
-    return convertToGraph(depTree);
-  } catch (err) {
-    const errAsString = err as string;
-    throw new SwiftError('Unable to generate dependency tree', errAsString);
-  }
-}
 
 function traverseTree(
   rootNode: DepTreeNode,
@@ -84,4 +51,34 @@ function convertToGraph(rootNode: DepTreeNode): DepGraph {
   traverseTree(rootNode, depGraphBuilder, depGraphBuilder.rootNodeId);
 
   return depGraphBuilder.build();
+}
+
+export async function computeDepGraph(
+  root: string,
+  targetFile: string,
+  additionalArgs?: string[],
+): Promise<DepGraph> {
+  const args = ['package'];
+
+  if (additionalArgs) {
+    args.push(...additionalArgs);
+  }
+  args.push(
+    ...[
+      '--package-path',
+      path.dirname(targetFile),
+      'show-dependencies',
+      '--format',
+      'json',
+    ],
+  );
+
+  try {
+    const result = await execute('swift', args, { cwd: root });
+    const depTree: DepTreeNode = JSON.parse(result);
+    return convertToGraph(depTree);
+  } catch (err) {
+    const errAsString = err as string;
+    throw new SwiftError('Unable to generate dependency tree', errAsString);
+  }
 }

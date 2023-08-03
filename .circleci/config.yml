@@ -99,7 +99,7 @@ workflows:
       - lint:
           name: lint
           context: nodejs-install
-          node_version: "12.22"
+          node_version: "20.3.1"
 
       # UNIX tests
       - test-unix:
@@ -109,7 +109,7 @@ workflows:
             - lint
           matrix:
             parameters:
-              node_version: ["16.13", "14.18", "12.22"]
+              node_version: [ "20.3.1", "18.16", "16.13", "14.18" ]
 
       - release:
           name: Release
