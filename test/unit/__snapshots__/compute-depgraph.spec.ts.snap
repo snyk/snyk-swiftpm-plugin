@@ -1,113 +1,113 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`compute-depgraph should successfully create snyk dep graph from swift-pm dep tree 1`] = `
-Object {
-  "graph": Object {
-    "nodes": Array [
-      Object {
-        "deps": Array [
-          Object {
+{
+  "graph": {
+    "nodes": [
+      {
+        "deps": [
+          {
             "nodeId": "github.com/grpc/grpc-swift@1.11.0",
           },
         ],
         "nodeId": "root-node",
         "pkgId": "swiftPM-spike@unspecified",
       },
-      Object {
-        "deps": Array [
-          Object {
+      {
+        "deps": [
+          {
             "nodeId": "github.com/apple/swift-nio@2.42.0",
           },
-          Object {
+          {
             "nodeId": "github.com/apple/swift-nio-http2@1.23.0",
           },
-          Object {
+          {
             "nodeId": "github.com/apple/swift-nio-transport-services@1.14.1",
           },
-          Object {
+          {
             "nodeId": "github.com/apple/swift-nio-extras@1.14.0",
           },
-          Object {
+          {
             "nodeId": "github.com/apple/swift-protobuf@1.20.2",
           },
-          Object {
+          {
             "nodeId": "github.com/apple/swift-log@1.4.4",
           },
-          Object {
+          {
             "nodeId": "github.com/apple/swift-nio-ssl@2.22.1",
           },
         ],
         "nodeId": "github.com/grpc/grpc-swift@1.11.0",
         "pkgId": "github.com/grpc/grpc-swift@1.11.0",
       },
-      Object {
-        "deps": Array [
-          Object {
+      {
+        "deps": [
+          {
             "nodeId": "github.com/apple/swift-atomics@1.0.2",
           },
-          Object {
+          {
             "nodeId": "github.com/apple/swift-collections@1.0.3",
           },
         ],
         "nodeId": "github.com/apple/swift-nio@2.42.0",
         "pkgId": "github.com/apple/swift-nio@2.42.0",
       },
-      Object {
-        "deps": Array [],
+      {
+        "deps": [],
         "nodeId": "github.com/apple/swift-atomics@1.0.2",
         "pkgId": "github.com/apple/swift-atomics@1.0.2",
       },
-      Object {
-        "deps": Array [],
+      {
+        "deps": [],
         "nodeId": "github.com/apple/swift-collections@1.0.3",
         "pkgId": "github.com/apple/swift-collections@1.0.3",
       },
-      Object {
-        "deps": Array [
-          Object {
+      {
+        "deps": [
+          {
             "nodeId": "github.com/apple/swift-nio@2.42.0",
           },
-          Object {
+          {
             "nodeId": "github.com/apple/swift-atomics@1.0.2",
           },
         ],
         "nodeId": "github.com/apple/swift-nio-http2@1.23.0",
         "pkgId": "github.com/apple/swift-nio-http2@1.23.0",
       },
-      Object {
-        "deps": Array [
-          Object {
+      {
+        "deps": [
+          {
             "nodeId": "github.com/apple/swift-nio@2.42.0",
           },
-          Object {
+          {
             "nodeId": "github.com/apple/swift-atomics@1.0.2",
           },
         ],
         "nodeId": "github.com/apple/swift-nio-transport-services@1.14.1",
         "pkgId": "github.com/apple/swift-nio-transport-services@1.14.1",
       },
-      Object {
-        "deps": Array [
-          Object {
+      {
+        "deps": [
+          {
             "nodeId": "github.com/apple/swift-nio@2.42.0",
           },
         ],
         "nodeId": "github.com/apple/swift-nio-extras@1.14.0",
         "pkgId": "github.com/apple/swift-nio-extras@1.14.0",
       },
-      Object {
-        "deps": Array [],
+      {
+        "deps": [],
         "nodeId": "github.com/apple/swift-protobuf@1.20.2",
         "pkgId": "github.com/apple/swift-protobuf@1.20.2",
       },
-      Object {
-        "deps": Array [],
+      {
+        "deps": [],
         "nodeId": "github.com/apple/swift-log@1.4.4",
         "pkgId": "github.com/apple/swift-log@1.4.4",
       },
-      Object {
-        "deps": Array [
-          Object {
+      {
+        "deps": [
+          {
             "nodeId": "github.com/apple/swift-nio@2.42.0",
           },
         ],
@@ -117,83 +117,83 @@ Object {
     ],
     "rootNodeId": "root-node",
   },
-  "pkgManager": Object {
+  "pkgManager": {
     "name": "swift",
   },
-  "pkgs": Array [
-    Object {
+  "pkgs": [
+    {
       "id": "swiftPM-spike@unspecified",
-      "info": Object {
+      "info": {
         "name": "swiftPM-spike",
         "version": "unspecified",
       },
     },
-    Object {
+    {
       "id": "github.com/grpc/grpc-swift@1.11.0",
-      "info": Object {
+      "info": {
         "name": "github.com/grpc/grpc-swift",
         "version": "1.11.0",
       },
     },
-    Object {
+    {
       "id": "github.com/apple/swift-nio@2.42.0",
-      "info": Object {
+      "info": {
         "name": "github.com/apple/swift-nio",
         "version": "2.42.0",
       },
     },
-    Object {
+    {
       "id": "github.com/apple/swift-atomics@1.0.2",
-      "info": Object {
+      "info": {
         "name": "github.com/apple/swift-atomics",
         "version": "1.0.2",
       },
     },
-    Object {
+    {
       "id": "github.com/apple/swift-collections@1.0.3",
-      "info": Object {
+      "info": {
         "name": "github.com/apple/swift-collections",
         "version": "1.0.3",
       },
     },
-    Object {
+    {
       "id": "github.com/apple/swift-nio-http2@1.23.0",
-      "info": Object {
+      "info": {
         "name": "github.com/apple/swift-nio-http2",
         "version": "1.23.0",
       },
     },
-    Object {
+    {
       "id": "github.com/apple/swift-nio-transport-services@1.14.1",
-      "info": Object {
+      "info": {
         "name": "github.com/apple/swift-nio-transport-services",
         "version": "1.14.1",
       },
     },
-    Object {
+    {
       "id": "github.com/apple/swift-nio-extras@1.14.0",
-      "info": Object {
+      "info": {
         "name": "github.com/apple/swift-nio-extras",
         "version": "1.14.0",
       },
     },
-    Object {
+    {
       "id": "github.com/apple/swift-protobuf@1.20.2",
-      "info": Object {
+      "info": {
         "name": "github.com/apple/swift-protobuf",
         "version": "1.20.2",
       },
     },
-    Object {
+    {
       "id": "github.com/apple/swift-log@1.4.4",
-      "info": Object {
+      "info": {
         "name": "github.com/apple/swift-log",
         "version": "1.4.4",
       },
     },
-    Object {
+    {
       "id": "github.com/apple/swift-nio-ssl@2.22.1",
-      "info": Object {
+      "info": {
         "name": "github.com/apple/swift-nio-ssl",
         "version": "2.22.1",
       },
