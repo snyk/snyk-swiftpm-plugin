@@ -7,6 +7,17 @@ interface Options {
   file?: string;
   args?: string[];
 }
+
+// we assume that swift considers folders as packages instead of manifest files
+function pathToPosix(fpath) {
+  const parts = fpath.split(path.sep);
+  parts.pop();
+  if (parts.length === 0) {
+    return './';
+  }
+  return parts.join(path.posix.sep);
+}
+
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export async function inspect(
   root: string,
@@ -15,7 +26,7 @@ export async function inspect(
 ) {
   const swiftPath = await lookpath('swift');
 
-  //Review whether we should check for this or for xcode
+  // Review whether we should check for this or for xcode
   // const xctestPath = await lookpath('xctest');
   const filename = targetFile.split(path.sep).slice(-1)[0];
   if (filename !== 'Package.swift') {
@@ -40,14 +51,4 @@ export async function inspect(
     },
     dependencyGraph: depGraph,
   };
-}
-
-// we assume that swift considers folders as packages instead of manifest files
-function pathToPosix(fpath) {
-  const parts = fpath.split(path.sep);
-  parts.pop();
-  if (parts.length === 0) {
-    return './';
-  }
-  return parts.join(path.posix.sep);
 }
