@@ -1,4 +1,5 @@
-import { computeDepGraph } from './compute-depgraph';
+import { computeDepGraph as swiftDepGraph } from './swiftpm/compute-depgraph';
+import { computeDepGraph as carthageDepGraph } from './carthage/deps';
 import { lookpath } from 'lookpath';
 import * as path from 'path';
 
@@ -24,30 +25,39 @@ export async function inspect(
   targetFile: string,
   options?: Options,
 ) {
-  const swiftPath = await lookpath('swift');
+  const filename = path.basename(targetFile);
+  const supportedPackageManagers = ['Swift Package Manager', 'Carthage'];
+  const supportedTargetFiles = {
+    'Package.swift': swiftDepGraph,
+    'Cartfile.resolved': carthageDepGraph,
+  };
+  if (!(filename in supportedTargetFiles)) {
+    throw new Error(
+      `${filename} is not supported by ${supportedPackageManagers.join(' or ')}. ` +
+        `Please provide with path to ${Object.keys(supportedTargetFiles).join(' or ')} files.`,
+    );
+  }
+  if (filename === 'Package.swift') {
+    const swiftPath = await lookpath('swift');
+    if (!swiftPath) {
+      throw new Error(
+        'The "swift" command is not available on your system. ' +
+          'To scan your dependencies in the CLI, you must ensure you have ' +
+          'first installed the relevant package manager.',
+      );
+    }
+  }
 
-  // Review whether we should check for this or for xcode
-  // const xctestPath = await lookpath('xctest');
-  const filename = targetFile.split(path.sep).slice(-1)[0];
-  if (filename !== 'Package.swift') {
-    throw new Error(
-      `${filename} is not supported by Swift Package Manager. Please provide with path to Package.swift`,
-    );
-  }
-  if (!swiftPath) {
-    throw new Error(
-      'The "swift" command is not available on your system. To scan your dependencies in the CLI, you must ensure you have first installed the relevant package manager.',
-    );
-  }
+  const computeDepGraph = supportedTargetFiles[filename];
   const depGraph = await computeDepGraph(root, targetFile, options?.args);
   if (!depGraph) {
-    throw new Error('Failed to scan this Swift PM project.');
+    throw new Error(`Failed to scan ${targetFile}`);
   }
   return {
     plugin: {
       name: 'snyk-swiftpm-plugin',
       runtime: 'unknown',
-      targetFile: `${pathToPosix(targetFile)}Package.swift`,
+      targetFile: `${pathToPosix(targetFile)}${filename}`,
     },
     dependencyGraph: depGraph,
   };

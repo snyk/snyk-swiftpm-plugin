@@ -1,9 +1,9 @@
 import { inspect } from '../../lib/index';
 import { lookpath } from 'lookpath';
-import { computeDepGraph } from '../../lib/compute-depgraph';
+import { computeDepGraph } from '../../lib/swiftpm/compute-depgraph';
 import { DepGraphBuilder } from '@snyk/dep-graph';
 
-jest.mock('../../lib/compute-depgraph');
+jest.mock('../../lib/swiftpm/compute-depgraph');
 jest.mock('lookpath');
 jest.mock('fs');
 
@@ -33,9 +33,9 @@ describe('inspect', () => {
     mockedLookpath.mockResolvedValue('swifty');
     mockedComputeDepGraph.mockResolvedValueOnce(depGraph);
     await expect(() =>
-      inspect(`${__dirname}/../fixtures/`, 'manifest.swift', {}),
+      inspect(`${__dirname}/../fixtures/swift_projects`, 'manifest.swift', {}),
     ).rejects.toThrowError(
-      'manifest.swift is not supported by Swift Package Manager. Please provide with path to Package.swift',
+      /manifest.swift is not supported by Swift Package Manager.*Please provide with path to Package.swift.*/,
     );
   });
 
@@ -43,7 +43,7 @@ describe('inspect', () => {
     const mockedLookpath = jest.mocked(lookpath);
     mockedLookpath.mockResolvedValue(undefined);
     await expect(() =>
-      inspect(`${__dirname}/../fixtures/`, 'Package.swift', {}),
+      inspect(`${__dirname}/../fixtures/swift_projects`, 'Package.swift', {}),
     ).rejects.toThrowError(
       'The "swift" command is not available on your system. To scan your dependencies in the CLI, you must ensure you have first installed the relevant package manager.',
     );
