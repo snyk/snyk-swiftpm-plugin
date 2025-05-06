@@ -1,5 +1,6 @@
 import { computeDepGraph as swiftDepGraph } from './swiftpm/compute-depgraph';
 import { computeDepGraph as carthageDepGraph } from './carthage/deps';
+import { DepGraph, PkgManager, PkgInfo } from '@snyk/dep-graph';
 import { lookpath } from 'lookpath';
 import * as path from 'path';
 
@@ -7,6 +8,8 @@ interface Options {
   debug?: boolean;
   file?: string;
   args?: string[];
+  pkgManager?: PkgManager;
+  rootPkg?: PkgInfo;
 }
 
 // we assume that swift considers folders as packages instead of manifest files
@@ -26,18 +29,8 @@ export async function inspect(
   options?: Options,
 ) {
   const filename = path.basename(targetFile);
-  const supportedPackageManagers = ['Swift Package Manager', 'Carthage'];
-  const supportedTargetFiles = {
-    'Package.swift': swiftDepGraph,
-    'Cartfile.resolved': carthageDepGraph,
-  };
-  if (!(filename in supportedTargetFiles)) {
-    throw new Error(
-      `${filename} is not supported by ${supportedPackageManagers.join(' or ')}. ` +
-        `Please provide with path to ${Object.keys(supportedTargetFiles).join(' or ')} files.`,
-    );
-  }
-  if (filename === 'Package.swift') {
+  let depGraph: DepGraph;
+  if (filename == 'Package.swift') {
     const swiftPath = await lookpath('swift');
     if (!swiftPath) {
       throw new Error(
@@ -46,10 +39,20 @@ export async function inspect(
           'first installed the relevant package manager.',
       );
     }
+    depGraph = await swiftDepGraph(root, targetFile, options?.args);
+  } else if (filename == 'Cartfile.resolved') {
+    depGraph = await carthageDepGraph(
+      targetFile,
+      options?.pkgManager,
+      options?.rootPkg,
+    );
+  } else {
+    throw new Error(
+      `${filename} is not supported by Swift Package Manager or Carthage. ` +
+        `Please provide with path to Package.swift or Cartfile.resolved files.`,
+    );
   }
 
-  const computeDepGraph = supportedTargetFiles[filename];
-  const depGraph = await computeDepGraph(root, targetFile, options?.args);
   if (!depGraph) {
     throw new Error(`Failed to scan ${targetFile}`);
   }
