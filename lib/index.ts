@@ -17,7 +17,7 @@ function pathToPosix(fpath) {
   const parts = fpath.split(path.sep);
   parts.pop();
   if (parts.length === 0) {
-    return './';
+    return '.';
   }
   return parts.join(path.posix.sep);
 }
@@ -40,8 +40,9 @@ export async function inspect(
       );
     }
     depGraph = await swiftDepGraph(root, targetFile, options?.args);
-  } else if (filename == 'Cartfile.resolved') {
+  } else if (filename == 'Cartfile.resolved' || filename == 'Cartfile') {
     depGraph = await carthageDepGraph(
+      root,
       targetFile,
       options?.pkgManager,
       options?.rootPkg,
@@ -60,7 +61,7 @@ export async function inspect(
     plugin: {
       name: 'snyk-swiftpm-plugin',
       runtime: 'unknown',
-      targetFile: `${pathToPosix(targetFile)}${filename}`,
+      targetFile: `${pathToPosix(targetFile)}${path.posix.sep}${filename}`,
     },
     dependencyGraph: depGraph,
   };

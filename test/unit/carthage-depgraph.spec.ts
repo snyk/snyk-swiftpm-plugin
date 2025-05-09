@@ -11,7 +11,8 @@ const fixturePath = (fixtureName) => {
 describe('when analysing a Carthage project', () => {
   it('should be able discover all resolved carthage dependencies', async () => {
     const graph = await computeDepGraph(
-      fixturePath('complex/Cartfile.resolved'),
+      fixturePath('complex'),
+      'Cartfile.resolved',
     );
     expect(graph).toBeDefined();
     const expected = new Set([
@@ -30,15 +31,19 @@ describe('when analysing a Carthage project', () => {
   });
 
   it('should throw an error if the root Cartfile.resolved is missing', async () => {
-    const nonExistentPath = fixturePath('non-existent-path/Cartfile.resolved');
-    await expect(computeDepGraph(nonExistentPath)).rejects.toThrow(
-      `File not found: ${nonExistentPath}`,
+    const nonExistentDir = fixturePath('non-existent-path');
+    const nonExistentPath = 'Cartfile.resolved';
+    await expect(
+      computeDepGraph(nonExistentDir, nonExistentPath),
+    ).rejects.toThrow(
+      `File not found: ${nonExistentDir}${path.sep}${nonExistentPath}`,
     );
   });
 
   it('should handle dependencies without their own Cartfile.resolved', async () => {
     const graph = await computeDepGraph(
-      fixturePath('spm-transitive/Cartfile.resolved'),
+      fixturePath('spm-transitive'),
+      'Cartfile.resolved',
     );
     expect(graph).toBeDefined();
 
@@ -52,7 +57,8 @@ describe('when analysing a Carthage project', () => {
 
   it('should handle diamond dependencies correctly', async () => {
     const graph = await computeDepGraph(
-      fixturePath('diamond/Cartfile.resolved'),
+      fixturePath('diamond'),
+      'Cartfile.resolved',
     );
     expect(graph).toBeDefined();
 
