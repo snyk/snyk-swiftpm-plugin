@@ -134,7 +134,7 @@ workflows:
             - lint
           matrix:
             parameters:
-              node_version: [ "20.3.1", "18.16", "16.13", "14.18" ]
+              node_version: [ "22.16.0","20.3.1", "18.16", "16.13"]
 
       - release:
           name: Release
