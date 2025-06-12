@@ -1,10 +1,10 @@
-import { computeDepGraph } from '../../lib/compute-depgraph';
-import { execute } from '../../lib/subprocess';
-import { dependencies } from '../fixtures/dependencies';
+import { computeDepGraph } from '../../lib/swiftpm/compute-depgraph';
+import { execute } from '../../lib/swiftpm/subprocess';
+import { dependencies } from '../fixtures/swift_projects/dependencies';
 import * as path from 'path';
 
 jest.setTimeout(100000);
-jest.mock('../../lib/subprocess');
+jest.mock('../../lib/swiftpm/subprocess');
 jest.mock('fs');
 
 const mockedExecute = jest.mocked(execute);
@@ -16,9 +16,12 @@ describe('compute-depgraph', () => {
     jest.clearAllMocks();
   });
   it('should successfully create snyk dep graph from swift-pm dep tree', async () => {
-    const targetFile = path.join(__dirname, '../fixtures/Package.swift');
+    const targetFile = path.join(
+      __dirname,
+      '../fixtures/swift_projects/Package.swift',
+    );
     const result = await computeDepGraph(
-      path.join(__dirname, '../fixtures'),
+      path.join(__dirname, '../fixtures/swift_projects'),
       targetFile,
     );
 
@@ -28,9 +31,12 @@ describe('compute-depgraph', () => {
   it('should add additional parameters (one) to swiftpm cli', async () => {
     const additionalArguments = ['firstParam'];
 
-    const targetFile = path.join(__dirname, '../fixtures/Package.swift');
+    const targetFile = path.join(
+      __dirname,
+      '../fixtures/swift_projects/Package.swift',
+    );
     await computeDepGraph(
-      path.join(__dirname, '../fixtures'),
+      path.join(__dirname, '../fixtures/swift_projects'),
       targetFile,
       additionalArguments,
     );
@@ -42,9 +48,12 @@ describe('compute-depgraph', () => {
   it('should add additional parameters (many) to swiftpm cli', async () => {
     const additionalArguments = ['firstParam', 'secondParam', 'thirdParam'];
 
-    const targetFile = path.join(__dirname, '../fixtures/Package.swift');
+    const targetFile = path.join(
+      __dirname,
+      '../fixtures/swift_projects/Package.swift',
+    );
     await computeDepGraph(
-      path.join(__dirname, '../fixtures'),
+      path.join(__dirname, '../fixtures/swift_projects'),
       targetFile,
       additionalArguments,
     );
@@ -69,9 +78,12 @@ describe('compute-depgraph', () => {
   it('should add additional parameters (none) to swiftpm cli', async () => {
     const additionalArguments = undefined;
 
-    const targetFile = path.join(__dirname, '../fixtures/Package.swift');
+    const targetFile = path.join(
+      __dirname,
+      '../fixtures/swift_projects/Package.swift',
+    );
     await computeDepGraph(
-      path.join(__dirname, '../fixtures'),
+      path.join(__dirname, '../fixtures/swift_projects'),
       targetFile,
       additionalArguments,
     );
