@@ -1,0 +1,204 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`compute-depgraph should successfully create snyk dep graph from swift-pm dep tree 1`] = `
+{
+  "graph": {
+    "nodes": [
+      {
+        "deps": [
+          {
+            "nodeId": "github.com/grpc/grpc-swift@1.11.0",
+          },
+        ],
+        "nodeId": "root-node",
+        "pkgId": "swiftPM-spike@unspecified",
+      },
+      {
+        "deps": [
+          {
+            "nodeId": "github.com/apple/swift-nio@2.42.0",
+          },
+          {
+            "nodeId": "github.com/apple/swift-nio-http2@1.23.0",
+          },
+          {
+            "nodeId": "github.com/apple/swift-nio-transport-services@1.14.1",
+          },
+          {
+            "nodeId": "github.com/apple/swift-nio-extras@1.14.0",
+          },
+          {
+            "nodeId": "github.com/apple/swift-protobuf@1.20.2",
+          },
+          {
+            "nodeId": "github.com/apple/swift-log@1.4.4",
+          },
+          {
+            "nodeId": "github.com/apple/swift-nio-ssl@2.22.1",
+          },
+        ],
+        "nodeId": "github.com/grpc/grpc-swift@1.11.0",
+        "pkgId": "github.com/grpc/grpc-swift@1.11.0",
+      },
+      {
+        "deps": [
+          {
+            "nodeId": "github.com/apple/swift-atomics@1.0.2",
+          },
+          {
+            "nodeId": "github.com/apple/swift-collections@1.0.3",
+          },
+        ],
+        "nodeId": "github.com/apple/swift-nio@2.42.0",
+        "pkgId": "github.com/apple/swift-nio@2.42.0",
+      },
+      {
+        "deps": [],
+        "nodeId": "github.com/apple/swift-atomics@1.0.2",
+        "pkgId": "github.com/apple/swift-atomics@1.0.2",
+      },
+      {
+        "deps": [],
+        "nodeId": "github.com/apple/swift-collections@1.0.3",
+        "pkgId": "github.com/apple/swift-collections@1.0.3",
+      },
+      {
+        "deps": [
+          {
+            "nodeId": "github.com/apple/swift-nio@2.42.0",
+          },
+          {
+            "nodeId": "github.com/apple/swift-atomics@1.0.2",
+          },
+        ],
+        "nodeId": "github.com/apple/swift-nio-http2@1.23.0",
+        "pkgId": "github.com/apple/swift-nio-http2@1.23.0",
+      },
+      {
+        "deps": [
+          {
+            "nodeId": "github.com/apple/swift-nio@2.42.0",
+          },
+          {
+            "nodeId": "github.com/apple/swift-atomics@1.0.2",
+          },
+        ],
+        "nodeId": "github.com/apple/swift-nio-transport-services@1.14.1",
+        "pkgId": "github.com/apple/swift-nio-transport-services@1.14.1",
+      },
+      {
+        "deps": [
+          {
+            "nodeId": "github.com/apple/swift-nio@2.42.0",
+          },
+        ],
+        "nodeId": "github.com/apple/swift-nio-extras@1.14.0",
+        "pkgId": "github.com/apple/swift-nio-extras@1.14.0",
+      },
+      {
+        "deps": [],
+        "nodeId": "github.com/apple/swift-protobuf@1.20.2",
+        "pkgId": "github.com/apple/swift-protobuf@1.20.2",
+      },
+      {
+        "deps": [],
+        "nodeId": "github.com/apple/swift-log@1.4.4",
+        "pkgId": "github.com/apple/swift-log@1.4.4",
+      },
+      {
+        "deps": [
+          {
+            "nodeId": "github.com/apple/swift-nio@2.42.0",
+          },
+        ],
+        "nodeId": "github.com/apple/swift-nio-ssl@2.22.1",
+        "pkgId": "github.com/apple/swift-nio-ssl@2.22.1",
+      },
+    ],
+    "rootNodeId": "root-node",
+  },
+  "pkgManager": {
+    "name": "swift",
+  },
+  "pkgs": [
+    {
+      "id": "swiftPM-spike@unspecified",
+      "info": {
+        "name": "swiftPM-spike",
+        "version": "unspecified",
+      },
+    },
+    {
+      "id": "github.com/grpc/grpc-swift@1.11.0",
+      "info": {
+        "name": "github.com/grpc/grpc-swift",
+        "version": "1.11.0",
+      },
+    },
+    {
+      "id": "github.com/apple/swift-nio@2.42.0",
+      "info": {
+        "name": "github.com/apple/swift-nio",
+        "version": "2.42.0",
+      },
+    },
+    {
+      "id": "github.com/apple/swift-atomics@1.0.2",
+      "info": {
+        "name": "github.com/apple/swift-atomics",
+        "version": "1.0.2",
+      },
+    },
+    {
+      "id": "github.com/apple/swift-collections@1.0.3",
+      "info": {
+        "name": "github.com/apple/swift-collections",
+        "version": "1.0.3",
+      },
+    },
+    {
+      "id": "github.com/apple/swift-nio-http2@1.23.0",
+      "info": {
+        "name": "github.com/apple/swift-nio-http2",
+        "version": "1.23.0",
+      },
+    },
+    {
+      "id": "github.com/apple/swift-nio-transport-services@1.14.1",
+      "info": {
+        "name": "github.com/apple/swift-nio-transport-services",
+        "version": "1.14.1",
+      },
+    },
+    {
+      "id": "github.com/apple/swift-nio-extras@1.14.0",
+      "info": {
+        "name": "github.com/apple/swift-nio-extras",
+        "version": "1.14.0",
+      },
+    },
+    {
+      "id": "github.com/apple/swift-protobuf@1.20.2",
+      "info": {
+        "name": "github.com/apple/swift-protobuf",
+        "version": "1.20.2",
+      },
+    },
+    {
+      "id": "github.com/apple/swift-log@1.4.4",
+      "info": {
+        "name": "github.com/apple/swift-log",
+        "version": "1.4.4",
+      },
+    },
+    {
+      "id": "github.com/apple/swift-nio-ssl@2.22.1",
+      "info": {
+        "name": "github.com/apple/swift-nio-ssl",
+        "version": "2.22.1",
+      },
+    },
+  ],
+  "schemaVersion": "1.3.0",
+}
+`;
