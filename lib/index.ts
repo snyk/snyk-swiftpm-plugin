@@ -1,5 +1,6 @@
-import { DepGraph } from '@snyk/dep-graph';
+import { DepGraph, PkgInfo, PkgManager } from '@snyk/dep-graph';
 import { computeDepGraph as computeSwiftDepGraph } from './swiftpm/compute-depgraph';
+import { computeDepGraph as computeCarthageDepGraph } from './carthage/deps';
 import { lookpath } from 'lookpath';
 import * as path from 'path';
 
@@ -7,6 +8,8 @@ interface Options {
   debug?: boolean;
   file?: string;
   args?: string[];
+  pkgManager?: PkgManager;
+  rootPkg?: PkgInfo;
 }
 
 // we assume that swift considers folders as packages instead of manifest files
@@ -38,6 +41,13 @@ export async function inspect(
       );
     }
     depGraph = await computeSwiftDepGraph(root, targetFile, options?.args);
+  } else if (filename == 'Cartfile.resolved' || filename == 'Cartfile') {
+    depGraph = await computeCarthageDepGraph(
+      root,
+      targetFile,
+      options?.pkgManager,
+      options?.rootPkg,
+    );
   } else {
     throw new Error(
       `${filename} is not supported by Swift Package Manager or Carthage. ` +
