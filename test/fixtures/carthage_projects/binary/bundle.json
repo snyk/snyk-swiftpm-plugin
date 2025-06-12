@@ -1,0 +1,5 @@
+{
+  "0.1.1": "https://github.com/snyk/carthage-example/releases/download/v0.1.1/snyk-migrate-ignores_0.1.1_darwin_amd64.zip",
+  "0.2.0": "https://github.com/snyk/carthage-example/releases/download/v0.2.0/snyk-migrate-ignores_0.2.0_darwin_amd64.zip",
+  "0.2.1": "https://github.com/snyk/carthage-example/releases/download/v0.2.1/snyk-migrate-ignores_0.2.1_darwin_amd64.zip"
+}
