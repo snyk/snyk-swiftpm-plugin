@@ -1,3 +1,38 @@
+export const dependenciesWithRegistryIdentity = {
+  identity: 'swift-goof',
+  name: 'swiftPM-spike',
+  url: '/Users/user/swift/swift-goof',
+  version: 'unspecified',
+  path: '/Users/user/swift/swift-goof',
+  dependencies: [
+    {
+      identity: 'apple.swift-argument-parser',
+      name: 'swift-argument-parser',
+      url: 'apple.swift-argument-parser',
+      version: '1.2.0',
+      path: '/Users/user/swift/swift-goof/.build/checkouts/swift-argument-parser',
+      dependencies: [],
+    },
+    {
+      identity: 'apple.swift-nio',
+      name: 'swift-nio',
+      url: 'apple.swift-nio',
+      version: '2.42.0',
+      path: '/Users/user/swift/swift-goof/.build/checkouts/swift-nio',
+      dependencies: [
+        {
+          identity: 'apple.swift-atomics',
+          name: 'swift-atomics',
+          url: 'apple.swift-atomics',
+          version: '1.0.2',
+          path: '/Users/user/swift/swift-goof/.build/checkouts/swift-atomics',
+          dependencies: [],
+        },
+      ],
+    },
+  ],
+};
+
 export const dependencies = {
   identity: 'swift-goof',
   name: 'swiftPM-spike',
