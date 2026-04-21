@@ -4,12 +4,31 @@ import * as path from 'path';
 import { SwiftError } from './errors';
 
 export type DepTreeNode = {
+  identity?: string;
   name: string;
   url: string;
   version: string;
   path: string;
   dependencies: DepTreeNode[];
 };
+
+// Matches Swift Package Registry identity format: scope.package-name
+// e.g. "apple.swift-argument-parser" → github.com/apple/swift-argument-parser
+const REGISTRY_IDENTITY_RE = /^[a-zA-Z0-9][a-zA-Z0-9-]*\.[a-zA-Z0-9][a-zA-Z0-9-]*$/;
+
+function packageNameFromUrl(url: string): string {
+  if (url.startsWith('https://') || url.startsWith('http://')) {
+    return url
+      .replace(/https:\/\//g, '')
+      .replace(/http:\/\//g, '')
+      .replace(/.git/g, '');
+  }
+  if (REGISTRY_IDENTITY_RE.test(url)) {
+    const dotIndex = url.indexOf('.');
+    return `github.com/${url.slice(0, dotIndex)}/${url.slice(dotIndex + 1)}`;
+  }
+  return url;
+}
 
 function traverseTree(
   rootNode: DepTreeNode,
@@ -20,16 +39,8 @@ function traverseTree(
 
   childNodes?.forEach((node) => {
     const { url, version } = node;
-    const name = url
-      .replace(/https:\/\//g, '')
-      .replace(/http:\/\//g, '')
-      .replace(/.git/g, '');
-    const parentName =
-      rootNodeId ||
-      rootNode.url
-        .replace(/https:\/\//g, '')
-        .replace(/http:\/\//g, '')
-        .replace(/.git/g, '');
+    const name = packageNameFromUrl(url);
+    const parentName = rootNodeId || packageNameFromUrl(rootNode.url);
 
     const nodeId = `${name}@${version}`;
     const parentNodeId = `${parentName}@${rootNode.version}`;
