@@ -16,12 +16,12 @@ export type DepTreeNode = {
 // e.g. "apple.swift-argument-parser" → github.com/apple/swift-argument-parser
 const REGISTRY_IDENTITY_RE = /^[a-zA-Z0-9][a-zA-Z0-9-]*\.[a-zA-Z0-9][a-zA-Z0-9-]*$/;
 
-function packageNameFromUrl(url: string): string {
+export function packageNameFromUrl(url: string): string {
   if (url.startsWith('https://') || url.startsWith('http://')) {
     return url
       .replace(/https:\/\//g, '')
       .replace(/http:\/\//g, '')
-      .replace(/.git/g, '');
+      .replace(/\.git$/g, '');
   }
   if (REGISTRY_IDENTITY_RE.test(url)) {
     const dotIndex = url.indexOf('.');

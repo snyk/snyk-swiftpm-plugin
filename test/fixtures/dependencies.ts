@@ -1,3 +1,29 @@
+export const dependenciesWithMixedSources = {
+  identity: 'swift-goof',
+  name: 'swiftPM-spike',
+  url: '/Users/user/swift/swift-goof',
+  version: 'unspecified',
+  path: '/Users/user/swift/swift-goof',
+  dependencies: [
+    {
+      identity: 'grpc-swift',
+      name: 'grpc-swift',
+      url: 'https://github.com/grpc/grpc-swift.git',
+      version: '1.11.0',
+      path: '/Users/user/swift/swift-goof/.build/checkouts/grpc-swift',
+      dependencies: [],
+    },
+    {
+      identity: 'apple.swift-argument-parser',
+      name: 'swift-argument-parser',
+      url: 'apple.swift-argument-parser',
+      version: '1.2.0',
+      path: '/Users/user/swift/swift-goof/.build/checkouts/swift-argument-parser',
+      dependencies: [],
+    },
+  ],
+};
+
 export const dependenciesWithRegistryIdentity = {
   identity: 'swift-goof',
   name: 'swiftPM-spike',

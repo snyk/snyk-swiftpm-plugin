@@ -75,6 +75,65 @@ exports[`compute-depgraph should convert registry identity URLs (scope.package-n
 }
 `;
 
+exports[`compute-depgraph should handle trees mixing https URLs and registry identities 1`] = `
+{
+  "graph": {
+    "nodes": [
+      {
+        "deps": [
+          {
+            "nodeId": "github.com/grpc/grpc-swift@1.11.0",
+          },
+          {
+            "nodeId": "github.com/apple/swift-argument-parser@1.2.0",
+          },
+        ],
+        "nodeId": "root-node",
+        "pkgId": "swiftPM-spike@unspecified",
+      },
+      {
+        "deps": [],
+        "nodeId": "github.com/grpc/grpc-swift@1.11.0",
+        "pkgId": "github.com/grpc/grpc-swift@1.11.0",
+      },
+      {
+        "deps": [],
+        "nodeId": "github.com/apple/swift-argument-parser@1.2.0",
+        "pkgId": "github.com/apple/swift-argument-parser@1.2.0",
+      },
+    ],
+    "rootNodeId": "root-node",
+  },
+  "pkgManager": {
+    "name": "swift",
+  },
+  "pkgs": [
+    {
+      "id": "swiftPM-spike@unspecified",
+      "info": {
+        "name": "swiftPM-spike",
+        "version": "unspecified",
+      },
+    },
+    {
+      "id": "github.com/grpc/grpc-swift@1.11.0",
+      "info": {
+        "name": "github.com/grpc/grpc-swift",
+        "version": "1.11.0",
+      },
+    },
+    {
+      "id": "github.com/apple/swift-argument-parser@1.2.0",
+      "info": {
+        "name": "github.com/apple/swift-argument-parser",
+        "version": "1.2.0",
+      },
+    },
+  ],
+  "schemaVersion": "1.3.0",
+}
+`;
+
 exports[`compute-depgraph should successfully create snyk dep graph from swift-pm dep tree 1`] = `
 {
   "graph": {
