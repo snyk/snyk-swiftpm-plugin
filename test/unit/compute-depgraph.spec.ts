@@ -50,7 +50,13 @@ describe('packageNameFromUrl', () => {
     );
   });
 
-  it('returns SSH URLs unchanged (pre-existing limitation)', () => {
+  it('returns ssh:// URLs unchanged (pre-existing limitation)', () => {
+    expect(packageNameFromUrl('ssh://git@github.com/apple/swift-nio.git')).toBe(
+      'ssh://git@github.com/apple/swift-nio.git',
+    );
+  });
+
+  it('returns git@ URLs unchanged (pre-existing limitation)', () => {
     expect(packageNameFromUrl('git@github.com:apple/swift-nio.git')).toBe(
       'git@github.com:apple/swift-nio.git',
     );
