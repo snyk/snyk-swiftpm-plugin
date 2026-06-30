@@ -1,4 +1,4 @@
-import { inspect } from '../../lib/index';
+import { inspect } from '../../lib';
 import { lookpath } from 'lookpath';
 import { computeDepGraph } from '../../lib/compute-depgraph';
 import { DepGraphBuilder } from '@snyk/dep-graph';
