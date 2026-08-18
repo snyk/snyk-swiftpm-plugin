@@ -98,7 +98,9 @@ jobs:
       - install_deps
       - run:
           name: Release
-          command: npx semantic-release --branches main
+          command: |
+            export NPM_ID_TOKEN=$(circleci run oidc get --claims '{"aud": "npm:registry.npmjs.org"}')
+            npx semantic-release@25.0.3
 
 workflows:
   version: 2
@@ -108,6 +110,7 @@ workflows:
           name: Scan repository for secrets
           context:
             - snyk-bot-slack
+            - prodsec-orb-runtime
           channel: snyk-vuln-alerts-sca
           filters:
             branches:
@@ -116,15 +119,16 @@ workflows:
 
       - security-scans:
           name: Security Scans
-          node_version: "20.3.1"
+          node_version: "24.16.0"
           context:
             - open_source-managed
             - nodejs-install
+            - prodsec-orb-runtime
 
       - lint:
           name: lint
           context: nodejs-install
-          node_version: "20.3.1"
+          node_version: "24.16.0"
 
       # UNIX tests
       - test-unix:
@@ -134,11 +138,13 @@ workflows:
             - lint
           matrix:
             parameters:
-              node_version: [ "20.3.1", "18.16", "16.13", "14.18" ]
+              node_version: [ "24.16.0", "22.23.1", "20.3.1", "18.16", "16.13" ]
 
       - release:
           name: Release
-          context: nodejs-lib-release
+          context:
+            - nodejs-install
+            - github-release
           node_version: "lts"
           requires:
             - lint
