@@ -48,7 +48,13 @@ commands:
     steps:
       - run:
           name: Install npm dependencies
-          command: npm install
+          command: |
+            for i in 1 2 3; do
+              npm install && exit 0
+              echo "npm install failed (attempt $i/3), retrying..."
+              sleep 5
+            done
+            exit 1
 jobs:
   security-scans:
     resource_class: small
