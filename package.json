@@ -30,6 +30,7 @@
     "dist"
   ],
   "dependencies": {
+    "@snyk/cli-interface": "^2.16.0",
     "@snyk/dep-graph": "^2.7.1",
     "lookpath": "^1.2.2",
     "tslib": "^2.6.1"
